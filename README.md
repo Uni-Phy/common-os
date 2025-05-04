@@ -166,6 +166,25 @@ A: You can access Ollama via its REST API. Examples for various programming lang
 
 A: Yes, Common Compute OS should work on any ARM64 device supported by DietPi, though official testing is done on Raspberry Pi hardware.
 
+## Support the Project
+
+If you find Common Compute OS valuable for your projects, please consider supporting its development through cryptocurrency donations. Your contributions help us maintain and improve this project.
+
+<div align="center">
+  <div style="display:flex; justify-content: center; gap: 40px;">
+    <div>
+      <h3>Bitcoin - Mainnet</h3>
+      <img src="docs/bitcoin.png" alt="Bitcoin QR Code" width="150" height="150">
+      <p><code>bc1qg8mkfye5fry92j2rql73t00ye8354vkalujshk</code></p>
+    </div>
+    <div>
+      <h3>Ethereum-Mainnet</h3>
+      <img src="docs/ethereum.png" alt="Ethereum QR Code" width="150" height="150">
+      <p><code>0xa6aE69AbEc6394d591bdF5B81Caf7aF440363a37</code></p>
+    </div>
+  </div>
+</div>
+
 ## Contributing
 
 Contributions are welcome! If you'd like to help improve Common Compute OS:
