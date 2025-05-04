@@ -44,16 +44,27 @@ This project eliminates the complexity of setting up an AI-ready environment fro
 
 ### Installation
 
-1. Download the latest Common Compute OS image from the [releases page](https://github.com/commoncompute/os/releases)
-2. Flash the image to your microSD card using tools like Etcher or dd
-3. (Optional) Configure WiFi and other settings using our USB setup script:
+#### Method 1: Starting with DietPi
+
+1. Download the base DietPi OS image for your device from the [official DietPi website](https://dietpi.com/downloads/)
+2. Flash the image to your microSD card using tools like [Etcher](https://www.balena.io/etcher/) or dd
+3. Re-mount the SD card on your computer and copy the Common Compute OS configuration files:
+   ```bash
+   # From the root of this repository
+   cp -r config/* /path/to/sd/card/
+   ```
+4. Configure WiFi and other settings using our USB setup script:
    ```bash
    cd cmd
    ./setup_usb.sh
    ```
-4. Insert the microSD card into your device and power it on
-5. Wait for the automatic setup process to complete (5-15 minutes)
-6. Find your device's IP address via your router or using `hostname -I` if you have a display connected
+5. Safely eject the microSD card and insert it into your Raspberry Pi
+6. Power on your device and wait for the automatic setup process to complete (5-15 minutes)
+7. Find your device's IP address via your router or using `hostname -I` if you have a display connected
+
+#### Method 2: Using a Pre-configured Image
+
+A pre-configured image will be available in future releases. For now, please use Method 1.
 
 ### Using Ollama
 
