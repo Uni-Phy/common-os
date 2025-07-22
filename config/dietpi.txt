@@ -83,12 +83,14 @@ AUTO_SETUP_BACKUP_RESTORE=0
 
 ##### Software options #####
 # SSH server choice: 0=none/custom | -1=Dropbear | -2=OpenSSH
-AUTO_SETUP_SSH_SERVER_INDEX=-1
+# Using OpenSSH for better compatibility and features
+AUTO_SETUP_SSH_SERVER_INDEX=-2
 
 # SSH server pubkey
-# - Public key(s) for "root" and "dietpi" users, which will be added to ~/.ssh/authorized_keys
+# - Public key(s) for "root" and "common" users, which will be added to ~/.ssh/authorized_keys
 # - Use the same setting multiple times for adding multiple keys.
-# - See SOFTWARE_DISABLE_SSH_PASSWORD_LOGINS below for disabling SSH password logins.
+# - Uncomment and replace with your actual SSH public key for keyless SSH access
+# - Example: AUTO_SETUP_SSH_PUBKEY=ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx user@hostname
 #AUTO_SETUP_SSH_PUBKEY=ssh-ed25519 AAAAAAAA111111111111BBBBBBBBBBBB222222222222cccccccccccc333333333333 mySSHkey
 
 # Logging mode choice: 0=none/custom | -1=RAMlog hourly clear | -2=RAMlog hourly save to disk + clear | -3=Rsyslog + Logrotate
@@ -123,10 +125,11 @@ AUTO_SETUP_AUTOMATED=1
 
 # On first boot, apply this password for login users and software installs automatically.
 # - Requires AUTO_SETUP_AUTOMATED=1
-# - Affects "root" and "dietpi" user's login passwords and is used by dietpi-software as default for software installs which require a password.
+# - Affects "root" and "common" user's login passwords and is used by dietpi-software as default for software installs which require a password.
 # - During first run setup, the password is removed from this file and instead encrypted and saved to root filesystem.
-# - WARN: The default SSH server Dropbear does not support passwords over 100 characters.
-# - WARN: We cannot guarantee that all software options can handle special characters like \"$.
+# - IMPORTANT: Change this password before flashing for security!
+# - Use a strong password with letters, numbers, and special characters (avoid quotes and backslashes)
+# - This password will be used for SSH login to the 'common' user
 AUTO_SETUP_GLOBAL_PASSWORD=ccos123
 
 # Software to automatically install
@@ -244,7 +247,8 @@ CONFIG_NTP_MIRROR=default
 #	0=Allow password logins for all users, including root
 #	root=Disable password login for root user only
 #	1=Disable password logins for all users, assure that you have a valid SSH key applied!
-SOFTWARE_DISABLE_SSH_PASSWORD_LOGINS=0
+# - Set to 'root' for better security - allows password login for 'common' user but not root
+SOFTWARE_DISABLE_SSH_PASSWORD_LOGINS=root
 
 # VNC Server
 SOFTWARE_VNCSERVER_WIDTH=1280
