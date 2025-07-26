@@ -163,7 +163,24 @@ chmod +x /usr/local/bin/ollama-manage
 
 echo "Helper scripts created" >> /var/log/ollama-setup.log
 
-# 9. Display connection information
+# 9. Setup Web UI and mDNS
+echo "Setting up web interface and mDNS..."
+if [ -f "/boot/setup-web-ui.sh" ]; then
+    chmod +x /boot/setup-web-ui.sh
+    /boot/setup-web-ui.sh
+    echo "Web UI setup completed" >> /var/log/ollama-setup.log
+    
+    # Immediately run WiFi management to start hotspot if needed
+    echo "Starting initial WiFi management..."
+    if [ -f "/usr/local/bin/coco-wifi-manager" ]; then
+        /usr/local/bin/coco-wifi-manager auto
+        echo "Initial WiFi management completed" >> /var/log/ollama-setup.log
+    fi
+else
+    echo "Web UI setup script not found, skipping..." >> /var/log/ollama-setup.log
+fi
+
+# 10. Display connection information
 IP_ADDRESS=$(hostname -I | awk '{print $1}')
 echo "======================================"
 echo "Simplified Ollama Setup Complete!"
