@@ -198,7 +198,28 @@ If you find Common Compute OS valuable for your projects, please consider suppor
 
 ## Contributing
 
-Contributions are welcome! If you'd like to help improve Common Compute OS:
+### 🚀 **Join Our Team!**
+
+Common Compute OS is part of the **Common Compute Network** project - building the world's first decentralized AI inference network. We're looking for passionate developers to join our team with **equity-based compensation** and opportunities for Co-Founder roles, full-time positions, or part-time contributions.
+
+For detailed information about contributor opportunities, compensation packages, and how to get involved, see our **[CONTRIBUTING.md](CONTRIBUTING.md)** guide.
+
+**Questions?** Chat with our Telegram bot [@CommonComputeBot](https://t.me/CommonComputeBot)
+
+### 🏗️ **Decentralized Network Development**
+
+We're actively developing plans to transform Common Compute OS into a decentralized AI inference network using Go + Substrate blockchain integration. Check out our comprehensive infrastructure planning:
+
+**📋 [Infrastructure Planning Documents](docs/infrastructure-planning/README.md)**
+
+- **Complete Architecture**: Go-Substrate hybrid design leveraging existing api-server
+- **Edge Agent Design**: Blockchain integration for Common Compute OS devices  
+- **Implementation Roadmap**: 5-phase plan with detailed timelines
+- **Working Code Examples**: Go-Substrate bridge implementation
+
+**Status**: Planning complete, ready for developer review and implementation
+
+### Code Contributions
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -221,6 +242,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 <p align="center">
-  Made with ❤️ by the Common Compute Team
+  made ▲ underground ▼ by coco
 </p>
 
