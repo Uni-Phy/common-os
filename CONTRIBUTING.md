@@ -1,52 +1,26 @@
-# Contributing to Common Compute Network
+# Contributing to Common Compute OS
 
 ## 🌟 Welcome Contributors!
 
-Thank you for your interest in contributing to Common Compute OS and the broader **Common Compute Network** project!
+Thank you for your interest in contributing to Common Compute OS! This project provides a minimalist, AI-ready operating system for edge devices, with Ollama pre-installed for running large language models on Raspberry Pi and compatible hardware.
 
-Common Compute OS is a key component of our larger mission to build the world's first decentralized AI inference network across multiple blockchain ecosystems including Polkadot, Ethereum, Cosmos, and Solana.
+## 🎯 Project Goals
 
-## 🚀 Join Our Team
+We're building a production-ready edge AI platform that focuses on:
+- **Performance**: Optimal resource usage on constrained hardware
+- **Simplicity**: Easy setup and management for developers
+- **Reliability**: Stable operation across different device configurations
+- **Community**: Open-source collaboration and knowledge sharing
 
-We offer **equity-based compensation** and **multi-ecosystem token rewards** for active contributors:
+## 🔧 How to Contribute
 
-- **Co-Founder Roles** (2-8% equity, 10-year vesting)
-- **Full-Time Employment** with equity (0.5-3% equity)
-- **Part-Time Opportunities** (0.1-1% equity)
-- **Multi-ecosystem token portfolio** aligned with Web3 growth
-- **Remote-first culture** with flexible working arrangements
-
-## 📋 What We're Building
-
-- **Decentralized AI Inference Network** on edge devices
-- **Multi-Chain Integration** (Polkadot, Ethereum, Cosmos, Solana)
-- **Economic Token Incentives** for compute resource sharing
-- **Privacy-Preserving AI** processing protocols
-- **Developer SDKs** and tools for AI applications
-
-## 🔗 Full Contributor Guide
-
-For complete details about contributor opportunities, compensation packages, team structure, and how to get involved, please see our main contributor guide:
-
-**👉 [Main CONTRIBUTING Guide](../Grants-Program/applications/CONTRIBUTING.md)**
-
-This comprehensive guide covers:
-- Detailed role descriptions and requirements
-- Complete compensation structure and token economics
-- Multi-ecosystem partnership approach
-- Team onboarding process
-- How to start contributing immediately
-
-## 💬 Get Help & Ask Questions
-
-Chat with our **Telegram bot [@CommonComputeBot](https://t.me/CommonComputeBot)** for instant answers about:
-
-- 💼 Contributor opportunities and compensation
-- 🛠️ Technical roadmap and architecture  
-- 👥 Team structure and available roles
-- 💰 Grant applications and funding status
-- 🌐 Multi-ecosystem partnerships
-- 📚 Getting started with contributions
+We welcome contributions in several areas:
+- **Performance Optimization**: Improving boot time, memory usage, and model inference speed
+- **Hardware Support**: Expanding compatibility to more ARM64 devices
+- **Documentation**: Improving setup guides, API docs, and troubleshooting
+- **Testing**: Automated testing across hardware configurations
+- **Web Interface**: Mobile-optimized management and monitoring tools
+- **Security**: Input validation, configuration hardening, and best practices
 
 ## 🛠️ Technical Contributions to Common Compute OS
 
@@ -100,35 +74,68 @@ cd common-os
 - Test coverage expansion
 - Code cleanup and refactoring
 
-## 📞 Contact & Community
+## 🕰️ Getting Started
 
-- **💬 Telegram Bot**: [@CommonComputeBot](https://t.me/CommonComputeBot)
-- **📧 Email**: contributors@commoncompute.network
-- **🐙 GitHub**: Submit issues and pull requests
-- **💼 LinkedIn**: Connect with our team for professional opportunities
+### 💆‍♂️ For New Contributors
 
-## 🏆 Recognition & Rewards
+1. **Read the Code**: Start by understanding the project structure and existing code
+2. **Check Issues**: Look for issues labeled `good first issue` or `help wanted`
+3. **Test Setup**: Get the OS running on actual hardware to understand the user experience
+4. **Small Changes**: Start with documentation fixes or minor improvements
+5. **Ask Questions**: Use GitHub Discussions if you're unsure about anything
 
-All contributors are eligible for:
-- **🏅 Public recognition** in our contributor hall of fame
-- **📜 Recommendation letters** and professional references
-- **🎫 Priority access** to team positions when funding is secured
-- **💰 Retroactive token rewards** for pre-funding contributions
-- **🎁 Common Compute swag** and exclusive merchandise
+### 📊 Current Project Status
 
-## 🌟 Why Contribute?
+- ✅ **Stable Core**: DietPi base with Ollama integration works reliably
+- 🔄 **Active Development**: Web UI, mobile optimization, hardware support
+- 📋 **Planned**: Performance optimization, testing automation, documentation
 
-- **🚀 Revolutionary Impact**: Help democratize AI and prevent monopolization
-- **💰 Financial Opportunity**: Early equity in potentially transformational project
-- **🎓 Learning & Growth**: Work with cutting-edge AI and blockchain technology
-- **🌐 Network Building**: Connect with top talent in AI and Web3
-- **🎯 Mission Alignment**: Support humanitarian technology development
+### 🛠️ Development Guidelines
+
+- **Hardware Testing**: Always test on real Pi hardware when possible
+- **Minimal Dependencies**: Keep the OS lightweight and focused
+- **User Experience**: Prioritize ease of setup and use
+- **Documentation**: Update docs with any user-facing changes
+- **Backwards Compatibility**: Don't break existing installations
+
+## 📋 Contribution Process
+
+### 🐛 Bug Reports
+1. Search existing issues first
+2. Use the bug report template
+3. Include hardware details and logs
+4. Test with a fresh installation if possible
+
+### ✨ Feature Requests
+1. Check if it fits the project's scope (edge AI, simplicity)
+2. Use the feature request template
+3. Consider hardware constraints and compatibility
+4. Discuss implementation approach
+
+### 🔄 Pull Requests
+1. Reference the related issue
+2. Include tests for new functionality
+3. Update documentation as needed
+4. Test on multiple hardware configurations
+5. Keep changes focused and atomic
+
+## 📞 Getting Help
+
+- **💬 GitHub Discussions**: For questions and brainstorming
+- **🐛 GitHub Issues**: For bugs and specific feature requests
+- **📚 Documentation**: Check existing docs first
+- **🤝 Community**: Connect with other contributors
+
+## 🏆 Recognition
+
+- Contributors are credited in release notes
+- Significant contributors get maintainer access
+- All contributors get a place in our README acknowledgments
+- Community recognition for helpful contributions
 
 ---
 
-**Ready to join the revolution in decentralized AI? Let's build the future together!**
-
-🤖 Start by chatting with [@CommonComputeBot](https://t.me/CommonComputeBot) or check out our [Main Contributing Guide](../Grants-Program/applications/CONTRIBUTING.md)
+**Start contributing today! Check out [SAMPLE_ISSUES.md](SAMPLE_ISSUES.md) for examples of tasks you can tackle.**
 
 ---
 

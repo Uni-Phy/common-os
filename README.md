@@ -96,21 +96,35 @@ The project is organized with the following directory structure:
 ```
 common-compute-os/
 ├── cmd/                    # Command-line tools and scripts
-│   └── update_usb_config.sh            # USB device management
+│   ├── setup_usb.sh                    # USB device management
+│   ├── update_usb_config.sh            # USB config updates
+│   ├── proxy-config.sh                 # Nginx proxy configuration
+│   └── setup-tunnel.sh                 # Cloudflare tunnel setup
 │
 ├── config/                 # Configuration files
 │   ├── Automation_Custom_Script.sh     # Main setup script
 │   ├── dietpi.txt                      # DietPi system configuration
-│   └── dietpi-wifi.txt                 # WiFi connection settings
+│   ├── dietpi-wifi.txt                 # WiFi connection settings
+│   ├── avahi-daemon.conf               # mDNS configuration
+│   ├── hostapd.conf                    # WiFi hotspot configuration
+│   ├── setup-web-ui.sh                 # Web interface setup
+│   └── coco-web-ui.service             # SystemD service for web UI
 │
 ├── docs/                   # Documentation
 │   ├── README_SETUP.md                 # Setup guide
 │   ├── README_OLLAMA_API.md            # API documentation
 │   ├── configure_ollama_server.md      # Server configuration guide
-│   └── ollama_check.md                 # Troubleshooting guide
+│   ├── ollama_check.md                 # Troubleshooting guide
+│   ├── FIRST_BOOT_BEHAVIOR.md          # Boot process documentation
+│   ├── IMPLEMENTATION_GUIDE.md         # Implementation details
+│   └── web-ui-integration-plan.md      # Web UI development plan
+│
+├── scripts/                # System scripts
+│   ├── wifi-manager.sh                 # WiFi management automation
+│   └── test-first-boot.sh              # Boot testing script
 │
 ├── test/                   # Testing scripts
-│   ├── improved_ollama_api_test.sh          # Enhanced API interactions
+│   ├── improved_ollama_api_test.sh     # Enhanced API interactions
 │   ├── ollama_api_examples.sh          # Example API usage
 │   └── ollama_connection_tester.sh     # Network connectivity tests
 │
@@ -198,36 +212,59 @@ If you find Common Compute OS valuable for your projects, please consider suppor
 
 ## Contributing
 
-### 🚀 **Join Our Team!**
+### 🔧 **Help Improve Common Compute OS**
 
-Common Compute OS is part of the **Common Compute Network** project - building the world's first decentralized AI inference network. We're looking for passionate developers to join our team with **equity-based compensation** and opportunities for Co-Founder roles, full-time positions, or part-time contributions.
+This is a production-ready edge AI platform that needs developers to help optimize performance, expand hardware support, and build better tooling. Both immediate improvements and longer-term architectural work are welcome.
 
-For detailed information about contributor opportunities, compensation packages, and how to get involved, see our **[CONTRIBUTING.md](CONTRIBUTING.md)** guide.
+### 📋 **Current Priorities**
 
-**Questions?** Chat with our Telegram bot [@CommonComputeBot](https://t.me/CommonComputeBot)
+#### **Ready to Tackle**
+- **Performance**: Optimize Ollama startup time and memory usage
+- **Hardware Support**: Expand ARM64 device compatibility
+- **Model Management**: Better tools for downloading/managing AI models
+- **Web Interface**: Improve mobile device management UI
+- **Testing**: Automated testing across hardware configurations
+- **Documentation**: Setup guides, API docs, troubleshooting
 
-### 🏗️ **Decentralized Network Development**
+#### **Good First Issues**
+- **Error Handling**: Better user feedback and error messages
+- **Configuration**: Simplify WiFi setup and system config
+- **Scripts**: Enhance installation and management utilities
+- **Examples**: More integration examples and tutorials
 
-We're actively developing plans to transform Common Compute OS into a decentralized AI inference network using Go + Substrate blockchain integration. Check out our comprehensive infrastructure planning:
+### 🔮 **Future Plans**
 
-**📋 [Infrastructure Planning Documents](docs/infrastructure-planning/README.md)**
+We're exploring decentralized network capabilities for connecting multiple edge devices. If you're interested in distributed systems or blockchain integration, let us know in discussions.
 
-- **Complete Architecture**: Go-Substrate hybrid design leveraging existing api-server
-- **Edge Agent Design**: Blockchain integration for Common Compute OS devices  
-- **Implementation Roadmap**: 5-phase plan with detailed timelines
-- **Working Code Examples**: Go-Substrate bridge implementation
+### 💻 **Development**
 
-**Status**: Planning complete, ready for developer review and implementation
+```bash
+# Fork and clone
+git clone https://github.com/yourusername/common-os.git
+cd common-os
 
-### Code Contributions
+# Test on actual hardware (recommended)
+# Or use Docker for development
+docker build -t common-os-test .
+```
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+**Process**: Check issues → Fork → Branch → Test → PR → Collaborate
 
-Please ensure your code follows our style guidelines and include appropriate tests.
+### 🎯 **What We Need**
+
+- **Systems Engineers**: Performance optimization for edge devices
+- **DevOps**: CI/CD, testing, deployment automation  
+- **Frontend**: Web interface and user experience
+- **Technical Writers**: Documentation and guides
+- **Blockchain Developers**: Future decentralized features
+
+### 📊 **Goals**
+- Boot time <3 minutes
+- >95% installation success rate
+- Minimal memory overhead
+- Broad hardware compatibility
+
+**Details in [CONTRIBUTING.md](CONTRIBUTING.md) • Questions? Open a GitHub issue or discussion**
 
 ## License
 
