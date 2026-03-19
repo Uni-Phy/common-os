@@ -1,0 +1,75 @@
+*** Begin Patch
+*** Update File: src/app/(chat)/layout.tsx
+@@
+-export const metadata: Metadata = {
+-  title: "Ollama UI",
+-  description: "Ollama chatbot web interface",
+-};
++export const metadata: Metadata = {
++  title: "Common Compute Chat",
++  description: "Common Compute local LLM chat interface",
++};
+*** End Patch
+*** Begin Patch
+*** Update File: src/app/(chat)/page.tsx
+@@
+-            <DialogTitle>Welcome to Ollama!</DialogTitle>
+-            <DialogDescription>
+-              Enter your name to get started. This is just to personalize your
+-              experience.
+-            </DialogDescription>
++            <DialogTitle>Welcome to Common Compute</DialogTitle>
++            <DialogDescription>
++              Add a display name to personalize your local chat experience.
++            </DialogDescription>
+*** End Patch
+*** Begin Patch
+*** Update File: src/app/globals.css
+@@
+-    --primary: 240 5.9% 10%;
+-    --primary-foreground: 0 0% 98%;
++    --primary: 189 83% 45%;
++    --primary-foreground: 0 0% 100%;
+@@
+-    --accent: 240 4.8% 95.9%;
+-    --accent-foreground: 240 5.9% 10%;
++    --accent: 189 60% 92%;
++    --accent-foreground: 199 70% 18%;
+@@
+-    --ring: 240 5.9% 10%;
++    --ring: 189 83% 45%;
+@@
+-    --primary: 0 0% 98%;
+-    --primary-foreground: 240 5.9% 10%;
++    --primary: 189 83% 55%;
++    --primary-foreground: 210 30% 12%;
+@@
+-    --accent: 240 3.7% 15.9%;
+-    --accent-foreground: 0 0% 98%;
++    --accent: 189 25% 20%;
++    --accent-foreground: 0 0% 98%;
+*** End Patch
+*** Begin Patch
+*** Update File: src/components/chat/chat-list.tsx
+@@
+-              src="/ollama.png"
++              src="/commoncompute.svg"
+*** End Patch
+*** Begin Patch
+*** Update File: src/components/chat/chat.tsx
+@@
+-            src="/ollama.png"
++            src="/commoncompute.svg"
+*** End Patch
+*** Begin Patch
+*** Update File: src/components/chat/chat-message.tsx
+@@
+-          src={message.role === "assistant" ? "/ollama.png" : ""}
++          src={message.role === "assistant" ? "/commoncompute.svg" : ""}
+*** End Patch
+*** Begin Patch
+*** Update File: src/components/sidebar.tsx
+@@
+-                src="/ollama.png"
++                src="/commoncompute.svg"
+*** End Patch

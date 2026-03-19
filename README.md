@@ -1,284 +1,121 @@
-# Common Compute OS
+# Common Compute OS — Ollama Lite
 
-<p align="center">
-  <img src="https://via.placeholder.com/150?text=CC+OS" alt="Common Compute Logo" width="150" height="150">
-</p>
+Run a local LLM on your Raspberry Pi with a web chat UI. One script does everything.
 
-<p align="center">
-  <strong>A minimalist operating system for developers building edge AI applications</strong>
-</p>
+**What you get:**
+- [Ollama](https://ollama.ai/) serving models on port `11434`
+- [nextjs-ollama-llm-ui](https://github.com/jakobhoeg/nextjs-ollama-llm-ui) chat interface on port `3000`
+- Both running as systemd services, auto-starting on boot
 
-<p align="center">
-  <a href="#overview">Overview</a> •
-  <a href="#key-features">Key Features</a> •
-  <a href="#quick-start">Quick Start</a> •
-  <a href="#directory-structure">Directory Structure</a> •
-  <a href="#contributing">Contributing</a> •
-  <a href="#license">License</a>
-</p>
+## Prerequisites
 
-## Overview
-
-Common Compute OS is a lightweight, developer-friendly operating system built on DietPi, designed to serve as a foundation for edge AI applications. It provides a minimalist base with Ollama pre-installed, allowing developers to quickly deploy and run large language models (LLMs) on Raspberry Pi and other compatible devices.
-
-This project eliminates the complexity of setting up an AI-ready environment from scratch, focusing on performance optimization and ease of use. With Common Compute OS, developers can start building AI applications immediately without worrying about the underlying infrastructure.
-
-## Key Features
-
-- **Minimalist Design**: Only essential components included to maximize available resources
-- **Pre-installed Ollama**: Run state-of-the-art LLMs locally without complex setup
-- **Performance Optimized**: CPU governor, swap, and system settings configured for AI workloads
-- **Developer Focused**: Easy-to-use API and management tools for integrating AI into applications
-- **Resource Efficient**: Carefully tuned for optimal performance on resource-constrained devices
-- **Secure By Default**: Minimal attack surface with only essential services exposed
-- **Highly Customizable**: Easily extensible for specific application requirements
-
-## Quick Start
-
-### Prerequisites
-
-- Raspberry Pi 4 (4GB or 8GB RAM recommended) or compatible device
+- Raspberry Pi 4/5 (4GB+ RAM recommended) running **Raspberry Pi OS** (64-bit)
 - 16GB+ microSD card
-- Power supply
-- Internet connection for initial setup
+- Internet connection
+- SSH access to your Pi
 
-### Installation
+## Install
 
-#### Method 1: Starting with DietPi
-
-1. Download the base DietPi OS image for your device from the [official DietPi website](https://dietpi.com/downloads/)
-2. Flash the image to your microSD card using tools like [Etcher](https://www.balena.io/etcher/) or dd
-3. Re-mount the SD card on your computer and copy the Common Compute OS configuration files:
-   ```bash
-   # From the root of this repository
-   cp -r config/* /path/to/sd/card/
-   ```
-4. Configure WiFi and other settings using our USB setup script:
-   ```bash
-   cd cmd
-   ./setup_usb.sh
-   ```
-5. Safely eject the microSD card and insert it into your Raspberry Pi
-6. Power on your device and wait for the automatic setup process to complete (5-15 minutes)
-7. Find your device's IP address via your router or using `hostname -I` if you have a display connected
-
-#### Method 2: Using a Pre-configured Image
-
-A pre-configured image will be available in future releases. For now, please use Method 1.
-
-### Using Ollama
-
-Once setup is complete, you can access the Ollama API at:
-
-```
-http://[your-device-IP]:11434
-```
-
-Example API usage:
+SSH into your Pi, then:
 
 ```bash
-# Generate text with the default model
-curl http://[your-device-IP]:11434/api/generate -d '{
-  "model": "gemma3:1b",
-  "prompt": "Hello, how are you?"
-}'
-
-# List available models
-curl http://[your-device-IP]:11434/api/tags
-```
-
-For more detailed instructions and examples, see the [Ollama documentation](docs/README_OLLAMA_API.md).
-
-## Directory Structure
-
-The project is organized with the following directory structure:
-
-```
-common-compute-os/
-├── cmd/                    # Command-line tools and scripts
-│   ├── setup_usb.sh                    # USB device management
-│   ├── update_usb_config.sh            # USB config updates
-│   ├── proxy-config.sh                 # Nginx proxy configuration
-│   └── setup-tunnel.sh                 # Cloudflare tunnel setup
-│
-├── config/                 # Configuration files
-│   ├── Automation_Custom_Script.sh     # Main setup script
-│   ├── dietpi.txt                      # DietPi system configuration
-│   ├── dietpi-wifi.txt                 # WiFi connection settings
-│   ├── avahi-daemon.conf               # mDNS configuration
-│   ├── hostapd.conf                    # WiFi hotspot configuration
-│   ├── setup-web-ui.sh                 # Web interface setup
-│   └── coco-web-ui.service             # SystemD service for web UI
-│
-├── docs/                   # Documentation
-│   ├── README_SETUP.md                 # Setup guide
-│   ├── README_OLLAMA_API.md            # API documentation
-│   ├── configure_ollama_server.md      # Server configuration guide
-│   ├── ollama_check.md                 # Troubleshooting guide
-│   ├── FIRST_BOOT_BEHAVIOR.md          # Boot process documentation
-│   ├── IMPLEMENTATION_GUIDE.md         # Implementation details
-│   └── web-ui-integration-plan.md      # Web UI development plan
-│
-├── scripts/                # System scripts
-│   ├── wifi-manager.sh                 # WiFi management automation
-│   └── test-first-boot.sh              # Boot testing script
-│
-├── test/                   # Testing scripts
-│   ├── improved_ollama_api_test.sh     # Enhanced API interactions
-│   ├── ollama_api_examples.sh          # Example API usage
-│   └── ollama_connection_tester.sh     # Network connectivity tests
-│
-└── README.md               # This file
-```
-
-## Advanced Usage
-
-### Managing Models
-
-Common Compute OS includes a helper script for managing Ollama models:
-
-```bash
-# List all installed models
-ollama-manage list
-
-# Download a new model
-ollama-manage pull llama3.2:1b
-
-# Remove a model
-ollama-manage remove neural-chat
-
-# Check storage usage
-ollama-manage space
-```
-
-### Customizing the Setup
-
-To customize the installation process, modify the files in the `config/` directory before flashing the image to your microSD card. See [Setup Guide](docs/README_SETUP.md) for details on customization options.
-
-#### USB Drive Configuration Tool
-
-Common Compute OS includes a USB drive configuration tool that simplifies the process of setting up WiFi credentials and copying configuration files to a USB drive:
-
-```bash
-cd cmd
-./setup_usb.sh
-```
-
-This interactive script:
-
-- Detects and lists available USB drives on your system
-- Allows you to select which drive to configure
-- Prompts for WiFi credentials (SSID and password)
-- Updates the dietpi-wifi.txt file with your WiFi settings
-- Copies all configuration files from the config directory to the USB drive
-
-The script provides color-coded prompts and detailed error messages to guide you through the process. Once complete, insert the USB drive into your Common Compute OS device during first boot to automatically apply your custom configurations.
-
-## Frequently Asked Questions
-
-**Q: What models can I run on a Raspberry Pi?**
-
-A: For the best experience, we recommend:
-- 8GB Raspberry Pi: Models up to 7B parameters (~4GB)
-- 4GB Raspberry Pi: Models under 3B parameters (~2GB)
-- Recommended starter model: gemma3:1b (815MB)
-
-**Q: How do I integrate Ollama with my application?**
-
-A: You can access Ollama via its REST API. Examples for various programming languages are available in the [API documentation](docs/README_OLLAMA_API.md).
-
-**Q: Can I run this on hardware other than Raspberry Pi?**
-
-A: Yes, Common Compute OS should work on any ARM64 device supported by DietPi, though official testing is done on Raspberry Pi hardware.
-
-## Support the Project
-
-If you find Common Compute OS valuable for your projects, please consider supporting its development through cryptocurrency donations. Your contributions help us maintain and improve this project.
-
-<div align="center">
-  <div style="display:flex; justify-content: center; gap: 40px;">
-    <div>
-      <h3>Bitcoin - Mainnet</h3>
-      <img src="docs/bitcoin.png" alt="Bitcoin QR Code" width="150" height="150">
-      <p><code>bc1qg8mkfye5fry92j2rql73t00ye8354vkalujshk</code></p>
-    </div>
-    <div>
-      <h3>Ethereum-Mainnet</h3>
-      <img src="docs/ethereum.png" alt="Ethereum QR Code" width="150" height="150">
-      <p><code>0xa6aE69AbEc6394d591bdF5B81Caf7aF440363a37</code></p>
-    </div>
-  </div>
-</div>
-
-## Contributing
-
-### 🔧 **Help Improve Common Compute OS**
-
-This is a production-ready edge AI platform that needs developers to help optimize performance, expand hardware support, and build better tooling. Both immediate improvements and longer-term architectural work are welcome.
-
-### 📋 **Current Priorities**
-
-#### **Ready to Tackle**
-- **Performance**: Optimize Ollama startup time and memory usage
-- **Hardware Support**: Expand ARM64 device compatibility
-- **Model Management**: Better tools for downloading/managing AI models
-- **Web Interface**: Improve mobile device management UI
-- **Testing**: Automated testing across hardware configurations
-- **Documentation**: Setup guides, API docs, troubleshooting
-
-#### **Good First Issues**
-- **Error Handling**: Better user feedback and error messages
-- **Configuration**: Simplify WiFi setup and system config
-- **Scripts**: Enhance installation and management utilities
-- **Examples**: More integration examples and tutorials
-
-### 🔮 **Future Plans**
-
-We're exploring decentralized network capabilities for connecting multiple edge devices. If you're interested in distributed systems or blockchain integration, let us know in discussions.
-
-### 💻 **Development**
-
-```bash
-# Fork and clone
-git clone https://github.com/yourusername/common-os.git
+git clone https://github.com/UniPhy/common-os.git
 cd common-os
-
-# Test on actual hardware (recommended)
-# Or use Docker for development
-docker build -t common-os-test .
+git checkout ollama-lite
+sudo ./install.sh
 ```
 
-**Process**: Check issues → Fork → Branch → Test → PR → Collaborate
+The installer will:
+1. Install Node.js, Ollama, and dependencies
+2. Configure Ollama to accept network connections
+3. Download the `gemma3:1b` model (~815MB)
+4. Clone, build, and start the web UI
 
-### 🎯 **What We Need**
+Total install time: ~10-20 minutes on RPi 4 (depends on internet speed).
 
-- **Systems Engineers**: Performance optimization for edge devices
-- **DevOps**: CI/CD, testing, deployment automation  
-- **Frontend**: Web interface and user experience
-- **Technical Writers**: Documentation and guides
-- **Blockchain Developers**: Future decentralized features
+## Access
 
-### 📊 **Goals**
-- Boot time <3 minutes
-- >95% installation success rate
-- Minimal memory overhead
-- Broad hardware compatibility
+After install, open in your browser:
 
-**Details in [CONTRIBUTING.md](CONTRIBUTING.md) • Questions? Open a GitHub issue or discussion**
+- **Chat UI:** `http://<your-pi-ip>:3000`
+- **Ollama API:** `http://<your-pi-ip>:11434`
+
+Find your Pi's IP with `hostname -I` on the Pi.
+
+## Manage
+
+```bash
+# Service status
+sudo systemctl status ollama
+sudo systemctl status coco-web-ui
+
+# View logs
+journalctl -u ollama -f
+journalctl -u coco-web-ui -f
+
+# Restart services
+sudo systemctl restart ollama
+sudo systemctl restart coco-web-ui
+
+# Manage models
+ollama list
+ollama pull llama3.2:1b
+ollama rm <model-name>
+```
+
+## Recommended Models for RPi
+
+| RAM | Max Parameters | Suggested Models |
+|-----|---------------|------------------|
+| 4GB | ~3B | `gemma3:1b` |
+| 8GB | ~7B | `gemma3:1b`, `llama3.2:3b`, `phi3:mini` |
+
+## Uninstall
+
+```bash
+sudo ./scripts/uninstall.sh
+```
+
+## Project Structure
+
+```
+common-os/
+├── install.sh                # Single-command installer
+├── config/
+│   ├── ollama-override.conf  # Ollama network config
+│   └── coco-web-ui.service   # Web UI systemd service
+├── scripts/
+│   └── uninstall.sh          # Clean removal
+├── LICENSE
+└── README.md
+```
+
+## Troubleshooting
+
+**Ollama won't start:**
+```bash
+journalctl -u ollama --no-pager -n 50
+```
+
+**Web UI won't start:**
+```bash
+journalctl -u coco-web-ui --no-pager -n 50
+```
+
+**Can't connect from another device:**
+Make sure your Pi and device are on the same network. Test with:
+```bash
+curl http://<pi-ip>:11434/api/tags
+```
+
+**Out of memory:**
+Try a smaller model. On 4GB Pi, stick to `gemma3:1b`.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- [DietPi](https://dietpi.com/) for the base OS
-- [Ollama](https://ollama.ai/) for the local LLM runtime
-- All contributors and community members
+MIT — see [LICENSE](LICENSE).
 
 ---
 
-<p align="center">
-  made ▲ underground ▼ by coco
-</p>
+<p align="center">made ▲ underground ▼ by coco</p>
 

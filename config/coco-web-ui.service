@@ -1,37 +1,24 @@
 [Unit]
-Description=Common Compute OS Web UI
-Documentation=https://github.com/UniPhy/common-os
-After=network.target ollama.service avahi-daemon.service
-Wants=ollama.service avahi-daemon.service
+Description=Common Compute OS Web UI (nextjs-ollama-llm-ui)
+After=network.target ollama.service
+Wants=ollama.service
 StartLimitIntervalSec=500
 StartLimitBurst=5
 
 [Service]
 Type=simple
-User=common
-Group=common
+User=__INSTALL_USER__
+Group=__INSTALL_USER__
 Restart=on-failure
 RestartSec=5s
 WorkingDirectory=/opt/coco-web-ui
 Environment=NODE_ENV=production
 Environment=PORT=3000
-Environment=OLLAMA_BASE_URL=http://localhost:11434
-Environment=HOSTNAME=0.0.0.0
-ExecStart=/usr/bin/node server.js
-ExecReload=/bin/kill -HUP $MAINPID
+Environment=NEXT_PUBLIC_OLLAMA_URL=http://localhost:11434
+ExecStart=/usr/bin/npx next start -p 3000
 KillMode=mixed
 KillSignal=SIGINT
 TimeoutStopSec=5
-
-# Security settings
-NoNewPrivileges=yes
-PrivateTmp=yes
-ProtectSystem=strict
-ProtectHome=yes
-ReadWritePaths=/opt/coco-web-ui
-ProtectKernelTunables=yes
-ProtectKernelModules=yes
-ProtectControlGroups=yes
 
 # Logging
 StandardOutput=journal
