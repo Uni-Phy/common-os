@@ -47,7 +47,7 @@ info "Updating package lists..."
 apt-get update -qq
 
 info "Installing required packages..."
-apt-get install -y -qq curl git ca-certificates tar gzip unzip patch
+apt-get install -y -qq curl git ca-certificates tar gzip unzip patch nginx avahi-daemon avahi-utils
 
 # --- Step 2: Install Node.js (if not present) ---
 if ! command -v node &>/dev/null; then
@@ -129,6 +129,40 @@ systemctl daemon-reload
 systemctl enable coco-web-ui
 systemctl start coco-web-ui
 
+# --- Step 8: Configure mDNS hostname ---
+info "Configuring mDNS hostname: coco-chat.local..."
+sed -i 's/^host-name=.*/host-name=coco-chat/' /etc/avahi/avahi-daemon.conf
+systemctl enable avahi-daemon
+systemctl restart avahi-daemon
+
+# --- Step 9: Set up nginx reverse proxy ---
+info "Configuring nginx reverse proxy on port 80..."
+cat > /etc/nginx/sites-available/coco-chat <<'NGINX_CONFIG'
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name coco-chat.local;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+NGINX_CONFIG
+
+rm -f /etc/nginx/sites-enabled/default
+ln -sf /etc/nginx/sites-available/coco-chat /etc/nginx/sites-enabled/coco-chat
+nginx -t > /dev/null 2>&1
+systemctl enable nginx
+systemctl restart nginx
+
 # Wait for web UI
 sleep 3
 if systemctl is-active --quiet coco-web-ui; then
@@ -143,16 +177,23 @@ echo ""
 echo "============================================="
 echo " Common Compute OS - Ollama Lite"
 echo "============================================="
+echo " Hostname:    coco-chat.local"
+echo " Chat UI:     http://coco-chat.local"
+echo " Ollama API:  http://coco-chat.local:11434"
+echo ""
+echo " Direct IP (if .local fails):"
+echo " Chat UI:     http://${IP_ADDRESS}"
 echo " Ollama API:  http://${IP_ADDRESS}:11434"
-echo " Web UI:      http://${IP_ADDRESS}:3000"
 echo " Model:       $DEFAULT_MODEL"
 echo ""
 echo " Test it:"
-echo "   curl http://${IP_ADDRESS}:11434/api/tags"
+echo "   curl http://coco-chat.local:11434/api/tags"
 echo ""
 echo " Manage:"
 echo "   sudo systemctl status ollama"
 echo "   sudo systemctl status coco-web-ui"
+echo "   sudo systemctl status nginx"
+echo "   sudo systemctl status avahi-daemon"
 echo "   ollama list"
 echo "   ollama pull <model>"
 echo "============================================="

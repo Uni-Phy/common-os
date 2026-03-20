@@ -43,12 +43,25 @@ export default function ChatTopbar({
 
   useEffect(() => {
     const fetchModels = async () => {
-      const fetchedModels = await fetch("/api/tags");
-      const json = await fetchedModels.json();
-      const apiModels = json.models.map((model: any) => model.name);
-      setModels([...apiModels]);
+      try {
+        const fetchedModels = await fetch("/api/tags");
+        if (!fetchedModels.ok) {
+          throw new Error(`Failed to fetch models: ${fetchedModels.status}`);
+        }
+        const json = await fetchedModels.json();
+        if (json.models && Array.isArray(json.models)) {
+          const apiModels = json.models.map((model: any) => model.name);
+          setModels([...apiModels]);
+        }
+      } catch (error) {
+        console.error("Error fetching models:", error);
+        setModels([]);
+      }
     };
     fetchModels();
+    // Retry fetching models every 5 seconds if empty
+    const interval = setInterval(fetchModels, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   const handleModelChange = (model: string) => {

@@ -125,14 +125,16 @@ export default function Chat({ initialMessages, id, isMobile }: ChatProps) {
       />
 
       {messages.length === 0 ? (
-        <div className="flex flex-col h-full w-full items-center gap-4 justify-center">
-          <Image
-            src="/coco-logo.png"
-            alt="AI"
-            width={40}
-            height={40}
-            className="h-16 w-14 object-contain dark:invert"
-          />
+        <div className="flex flex-col h-full w-full items-center gap-4 justify-center relative">
+          <div className="absolute top-4 right-4">
+            <Image
+              src="/coco-logo.png"
+              alt="AI"
+              width={40}
+              height={40}
+              className="h-12 w-12 object-contain dark:invert"
+            />
+          </div>
           <p className="text-center text-base text-muted-foreground">
             How can I help you today?
           </p>
