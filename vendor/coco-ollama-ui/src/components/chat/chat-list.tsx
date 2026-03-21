@@ -39,10 +39,10 @@ export default function ChatList({
         {loadingSubmit && (
           <ChatBubble variant="received">
             <ChatBubbleAvatar
-              src="/coco-logo.png"
+              src=""
               width={6}
               height={6}
-              className="object-contain dark:invert"
+              fallback="CO"
             />
             <ChatBubbleMessage isLoading />
           </ChatBubble>

@@ -142,11 +142,10 @@ function ChatMessage({ message, isLast, isLoading, reload }: ChatMessageProps) {
     <motion.div {...MOTION_CONFIG} className="flex flex-col gap-2 whitespace-pre-wrap">
       <ChatBubble variant={message.role === "user" ? "sent" : "received"}>
         <ChatBubbleAvatar
-          src={message.role === "assistant" ? "/coco-logo.png" : ""}
+          src=""
           width={6}
           height={6}
-          className="object-contain dark:invert"
-          fallback={message.role === "user" ? "US" : ""}
+          fallback={message.role === "user" ? "US" : "CO"}
         />
         <ChatBubbleMessage>
           {renderThinkingProcess()}

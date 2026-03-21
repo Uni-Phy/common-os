@@ -67,19 +67,34 @@ export function Sidebar({
           className="flex justify-between w-full h-14 text-sm xl:text-lg font-normal items-center "
         >
           <div className="flex gap-3 items-center ">
-            {!isCollapsed && !isMobile && (
-              <Image
-                src="/coco-logo.png"
-                alt="AI"
-                width={28}
-                height={28}
-                className="dark:invert hidden 2xl:block"
-              />
-            )}
+            {!isCollapsed && !isMobile && <span className="text-xs font-semibold">CO</span>}
             New chat
           </div>
           <SquarePen size={18} className="shrink-0 w-4 h-4" />
         </Button>
+
+        {!isCollapsed && !isMobile && (
+          <div className="flex flex-col gap-1 mt-2">
+            <Link
+              href="/knowledge"
+              className={buttonVariants({ variant: "ghost" })}
+            >
+              Knowledge
+            </Link>
+            <Link
+              href="/research"
+              className={buttonVariants({ variant: "ghost" })}
+            >
+              Research
+            </Link>
+            <Link
+              href="/benchmark"
+              className={buttonVariants({ variant: "ghost" })}
+            >
+              Benchmark
+            </Link>
+          </div>
+        )}
 
         <div className="flex flex-col pt-10 gap-2">
           <p className="pl-4 text-xs text-muted-foreground">Your chats</p>

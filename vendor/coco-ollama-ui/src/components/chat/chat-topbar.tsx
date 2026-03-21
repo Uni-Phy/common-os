@@ -74,56 +74,66 @@ export default function ChatTopbar({
   };
 
   return (
-    <div className="w-full flex px-4 py-6 items-center justify-between lg:justify-center ">
-      <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
-        <SheetTrigger>
-          <HamburgerMenuIcon className="lg:hidden w-5 h-5" />
-        </SheetTrigger>
-        <SheetContent side="left">
-          <Sidebar
-            chatId={chatId || ""}
-            isCollapsed={false}
-            isMobile={false}
-            messages={messages}
-            closeSidebar={handleCloseSidebar}
-          />
-        </SheetContent>
-      </Sheet>
+    <div className="w-full flex px-4 py-4 items-center">
+      <div className="w-10">
+        <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+          <SheetTrigger>
+            <HamburgerMenuIcon className="lg:hidden w-5 h-5" />
+          </SheetTrigger>
+          <SheetContent side="left">
+            <Sidebar
+              chatId={chatId || ""}
+              isCollapsed={false}
+              isMobile={false}
+              messages={messages}
+              closeSidebar={handleCloseSidebar}
+            />
+          </SheetContent>
+        </Sheet>
+      </div>
 
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            disabled={isLoading}
-            variant="outline"
-            role="combobox"
-            aria-expanded={open}
-            className="w-[300px] justify-between"
-          >
-            {selectedModel || "Select model"}
-            <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-[300px] p-1">
-          {models.length > 0 ? (
-            models.map((model) => (
-              <Button
-                key={model}
-                variant="ghost"
-                className="w-full"
-                onClick={() => {
-                  handleModelChange(model);
-                }}
-              >
-                {model}
-              </Button>
-            ))
-          ) : (
-            <Button variant="ghost" disabled className=" w-full">
-              No models available
+      <div className="flex-1 flex justify-center">
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              disabled={isLoading}
+              variant="outline"
+              role="combobox"
+              aria-expanded={open}
+              className="w-[300px] justify-between"
+            >
+              {selectedModel || "Select model"}
+              <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
-          )}
-        </PopoverContent>
-      </Popover>
+          </PopoverTrigger>
+          <PopoverContent className="w-[300px] p-1">
+            {models.length > 0 ? (
+              models.map((model) => (
+                <Button
+                  key={model}
+                  variant="ghost"
+                  className="w-full"
+                  onClick={() => {
+                    handleModelChange(model);
+                  }}
+                >
+                  {model}
+                </Button>
+              ))
+            ) : (
+              <Button variant="ghost" disabled className=" w-full">
+                No models available
+              </Button>
+            )}
+          </PopoverContent>
+        </Popover>
+      </div>
+
+      <div className="w-40 flex justify-end">
+        <span className="text-sm md:text-base font-semibold tracking-tight text-foreground">
+          CommonCompute
+        </span>
+      </div>
     </div>
   );
 }

@@ -1,6 +1,18 @@
 import { CoreMessage, generateId, Message } from "ai";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
+import { BenchmarkRun, KnowledgeTopic, PresetQuestion, ResearchTopic } from "@/types/modules";
+
+const DEFAULT_PRESET_QUESTIONS: PresetQuestion[] = [
+  { id: "p1", category: "quantum physics", content: "Explain quantum entanglement like I am 12, then add a rigorous version with equations and real-world applications." },
+  { id: "p2", category: "spirituality", content: "Compare mindfulness, Vedanta, and Stoicism on handling anxiety and uncertainty, with practical daily exercises." },
+  { id: "p3", category: "ai", content: "What are the practical trade-offs between RAG, fine-tuning, and agent workflows for building a local AI assistant?" },
+  { id: "p4", category: "history", content: "Give a timeline of the 20th century’s most important turning points and explain how they shaped today’s geopolitics." },
+  { id: "p5", category: "pop culture", content: "Analyze how memes, streaming platforms, and fandom culture influence public opinion and modern identity." },
+  { id: "p6", category: "science + philosophy", content: "Where do modern neuroscience and philosophical ideas of consciousness agree and disagree?" },
+  { id: "p7", category: "future trends", content: "What are the most likely social and economic changes from AI adoption over the next 10 years?" },
+  { id: "p8", category: "mythology + meaning", content: "Compare archetypes in Greek mythology, Hindu epics, and modern superhero films." },
+];
 
 interface ChatSession {
   messages: Message[];
@@ -16,6 +28,10 @@ interface State {
   isDownloading: boolean;
   downloadProgress: number;
   downloadingModel: string | null;
+  presetQuestions: PresetQuestion[];
+  knowledgeTopics: KnowledgeTopic[];
+  researchTopics: ResearchTopic[];
+  benchmarkRuns: BenchmarkRun[];
 }
 
 interface Actions {
@@ -30,6 +46,13 @@ interface Actions {
   startDownload: (modelName: string) => void;
   stopDownload: () => void;
   setDownloadProgress: (progress: number) => void;
+  addKnowledgeTopic: (topic: Omit<KnowledgeTopic, "id" | "createdAt">) => void;
+  removeKnowledgeTopic: (id: string) => void;
+  addResearchTopic: (topic: Omit<ResearchTopic, "id" | "updatedAt">) => void;
+  updateResearchTopic: (id: string, updates: Partial<ResearchTopic>) => void;
+  removeResearchTopic: (id: string) => void;
+  addBenchmarkRun: (run: Omit<BenchmarkRun, "id" | "createdAt">) => void;
+  removeBenchmarkRun: (id: string) => void;
 }
 
 const useChatStore = create<State & Actions>()(
@@ -42,7 +65,11 @@ const useChatStore = create<State & Actions>()(
       userName: "Anonymous",
       isDownloading: false,
       downloadProgress: 0,
-      downloadingModel: null, 
+      downloadingModel: null,
+      presetQuestions: DEFAULT_PRESET_QUESTIONS,
+      knowledgeTopics: [],
+      researchTopics: [],
+      benchmarkRuns: [],
 
       setBase64Images: (base64Images) => set({ base64Images }),
       setUserName: (userName) => set({ userName }),
@@ -106,14 +133,78 @@ const useChatStore = create<State & Actions>()(
       stopDownload: () =>
         set({ isDownloading: false, downloadingModel: null, downloadProgress: 0 }),
       setDownloadProgress: (progress) => set({ downloadProgress: progress }),
+      addKnowledgeTopic: (topic) =>
+        set((state) => ({
+          knowledgeTopics: [
+            {
+              id: generateId(),
+              createdAt: new Date().toISOString(),
+              ...topic,
+            },
+            ...state.knowledgeTopics,
+          ],
+        })),
+      removeKnowledgeTopic: (id) =>
+        set((state) => ({
+          knowledgeTopics: state.knowledgeTopics.filter((t) => t.id !== id),
+        })),
+      addResearchTopic: (topic) =>
+        set((state) => ({
+          researchTopics: [
+            {
+              id: generateId(),
+              updatedAt: new Date().toISOString(),
+              ...topic,
+            },
+            ...state.researchTopics,
+          ],
+        })),
+      updateResearchTopic: (id, updates) =>
+        set((state) => ({
+          researchTopics: state.researchTopics.map((t) =>
+            t.id === id ? { ...t, ...updates, updatedAt: new Date().toISOString() } : t
+          ),
+        })),
+      removeResearchTopic: (id) =>
+        set((state) => ({
+          researchTopics: state.researchTopics.filter((t) => t.id !== id),
+        })),
+      addBenchmarkRun: (run) =>
+        set((state) => ({
+          benchmarkRuns: [
+            {
+              id: generateId(),
+              createdAt: new Date().toISOString(),
+              ...run,
+            },
+            ...state.benchmarkRuns,
+          ],
+        })),
+      removeBenchmarkRun: (id) =>
+        set((state) => ({
+          benchmarkRuns: state.benchmarkRuns.filter((r) => r.id !== id),
+        })),
     }),
     {
       name: "nextjs-ollama-ui-state",
+      version: 2,
+      migrate: (persistedState: any, version) => {
+        if (version < 2) {
+          return {
+            ...persistedState,
+            presetQuestions: DEFAULT_PRESET_QUESTIONS,
+          };
+        }
+        return persistedState;
+      },
       partialize: (state) => ({
         chats: state.chats,
         currentChatId: state.currentChatId,
         selectedModel: state.selectedModel,
         userName: state.userName,
+        knowledgeTopics: state.knowledgeTopics,
+        researchTopics: state.researchTopics,
+        benchmarkRuns: state.benchmarkRuns,
       }),
     }
   )
