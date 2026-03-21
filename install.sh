@@ -67,13 +67,16 @@ else
     info "Ollama already installed: $(ollama --version 2>/dev/null || echo 'unknown version')"
 fi
 
-# --- Step 4: Configure Ollama to listen on all interfaces ---
-info "Configuring Ollama to listen on 0.0.0.0:11434..."
-mkdir -p /etc/systemd/system/ollama.service.d/
-cp "$SCRIPT_DIR/config/ollama-override.conf" /etc/systemd/system/ollama.service.d/override.conf
+# --- Step 4: Install and configure Ollama systemd service ---
+info "Installing Ollama systemd service..."
+cp "$SCRIPT_DIR/config/ollama.service" /etc/systemd/system/ollama.service
+cp "$SCRIPT_DIR/config/ollama-watchdog.service" /etc/systemd/system/ollama-watchdog.service
+cp "$SCRIPT_DIR/config/ollama-watchdog.timer" /etc/systemd/system/ollama-watchdog.timer
 systemctl daemon-reload
 systemctl enable ollama
+systemctl enable ollama-watchdog.timer
 systemctl restart ollama
+systemctl start ollama-watchdog.timer
 
 # Wait for Ollama to be ready
 info "Waiting for Ollama to start..."
@@ -87,7 +90,7 @@ done
 if ! curl -sf http://localhost:11434/api/tags &>/dev/null; then
     fail "Ollama failed to start. Check: journalctl -u ollama"
 fi
-info "Ollama is running."
+info "Ollama is running and watchdog enabled."
 
 # --- Step 5: Pull default model ---
 info "Pulling default model: $DEFAULT_MODEL (this may take a while)..."

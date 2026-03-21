@@ -1,0 +1,11 @@
+[Unit]
+Description=Ollama Watchdog - Monitor and restart if down
+After=ollama.service
+Wants=ollama.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -c 'if ! curl -sf http://localhost:11434/api/tags >/dev/null 2>&1; then systemctl restart ollama; fi'
+User=root
+StandardOutput=journal
+StandardError=journal
