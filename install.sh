@@ -49,14 +49,25 @@ apt-get update -qq
 info "Installing required packages..."
 apt-get install -y -qq curl git ca-certificates tar gzip unzip patch nginx avahi-daemon avahi-utils
 
-# --- Step 2: Install Node.js (if not present) ---
-if ! command -v node &>/dev/null; then
-    info "Installing Node.js 18.x..."
-    curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-    apt-get install -y -qq nodejs
-else
+# --- Step 2: Install Node.js 24.x ---
+TARGET_NODE_MAJOR=24
+CURRENT_NODE_MAJOR=""
+
+if command -v node &>/dev/null; then
     NODE_VER=$(node --version)
-    info "Node.js already installed: $NODE_VER"
+    CURRENT_NODE_MAJOR=$(node -p "process.versions.node.split('.')[0]")
+    info "Detected Node.js: $NODE_VER"
+fi
+
+if [ -z "$CURRENT_NODE_MAJOR" ] || [ "$CURRENT_NODE_MAJOR" -lt "$TARGET_NODE_MAJOR" ]; then
+    info "Installing Node.js ${TARGET_NODE_MAJOR}.x..."
+    if ! curl -fsSL "https://deb.nodesource.com/setup_${TARGET_NODE_MAJOR}.x" | bash -; then
+        fail "Failed to set up NodeSource repository."
+    fi
+    apt-get install -y -qq nodejs || fail "Failed to install Node.js."
+    info "Node.js ready: $(node --version)"
+else
+    info "Node.js ${NODE_VER} already meets the ${TARGET_NODE_MAJOR}.x requirement."
 fi
 
 # --- Step 3: Install Ollama ---
@@ -111,10 +122,13 @@ WEB_UI_SRC_DIR="$WEB_UI_BUILD_DIR"
 
 info "Installing npm dependencies (this may take a few minutes on RPi)..."
 cd "$WEB_UI_SRC_DIR"
-npm install
+npm ci --no-audit --no-fund || fail "Failed to install npm dependencies."
 
 info "Building Next.js application..."
-npm run build
+npm run build || fail "Failed to build Next.js application."
+
+info "Pruning dev dependencies for production..."
+npm prune --omit=dev || fail "Failed to prune dev dependencies."
 
 info "Deploying to $WEB_UI_DIR ..."
 rm -rf "$WEB_UI_DIR"

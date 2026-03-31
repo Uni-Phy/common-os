@@ -26,7 +26,7 @@ sudo ./install.sh
 ```
 
 The installer will:
-1. Install Node.js, Ollama, and dependencies
+1. Install Node.js 24.x, Ollama, and dependencies
 2. Configure Ollama to accept network connections
 3. Download the `gemma3:1b` model (~815MB)
 4. Clone, build, and start the web UI
