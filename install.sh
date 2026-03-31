@@ -6,11 +6,11 @@
 set -e
 
 # --- Configuration ---
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 WEB_UI_DIR="/opt/coco-web-ui"
 WEB_UI_BUILD_DIR="/tmp/coco-web-ui"
 WEB_UI_VENDOR_DIR="$SCRIPT_DIR/vendor/coco-ollama-ui"
 DEFAULT_MODEL="gemma3:1b"
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # --- Colors ---
 RED='\033[0;31m'
